@@ -9,9 +9,9 @@ class TextMsg(object):
         """
         初始化
 
-        @param content: 消息内容
-        @param at_mobile: @ 用户
-        @param _at_all: @ 所有人
+        :param content: 消息内容
+        :param at_mobile: @ 用户
+        :param _at_all: @ 所有人
         """
         self._msgtype = "text"
         self.content = content
