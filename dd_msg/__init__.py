@@ -1,1 +1,1 @@
-__all__ = ["link", "text", "markdown"]
+__all__ = ["link", "text", "markdown", "actioncard"]

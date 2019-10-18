@@ -3,6 +3,7 @@
 # from dd_msg.link import LinkMsg
 # from dd_msg.markdown import MarkdownMsg
 # from dd_msg.actioncard import ActionCardMsg
+# from dd_msg.feedcard import FeedCardMsg
 from send_msg import requests_url
 
 # base_URL="https://wis.qq.com/weather/common?weather_type=observe|forecast_24h|air&source=pc"
@@ -48,9 +49,22 @@ dingding = "https://oapi.dingtalk.com/robot/send?access_token=48069c1f554a0ce416
 # if __name__ == "__main__":
 #     ac = ActionCardMsg(
 #         "乔布斯 20 年前想打造一间苹果咖啡厅", 
-#         "![screenshot](@lADOpwk3K80C0M0FoA)",
-#         "阅读全文", "https://www.dingtalk.com/")
+#         "![screenshot](@lADOpwk3K80C0M0FoA)")
 #     ac.add_content("### 乔布斯 20 年前想打造的苹果咖啡厅")
 #     ac.add_content("Apple Store 的设计正从原来满满的科技感走向生活化")
+#     ac.add_button("baidu", "https://www.baidu.com")
+#     # ac.add_button("qq", "https://www.qq.com")
 #     my_data = ac.conversion_json()
+#     print(requests_url.request_url(dingding, my_data))
+
+# # FeedCard 测试
+# if __name__ == '__main__':
+#     fc = FeedCardMsg()
+#     fc.add_link(
+#         "时代的火车向前开", "https://www.dingtalk.com", "https://www.dingtalk.com/"
+#     )
+#     fc.add_link(
+#         "时代的火车向前开2", "https://www.dingtalk.com", "https://www.dingtalk.com/"
+#     )
+#     my_data = fc.conversion_json()
 #     print(requests_url.request_url(dingding, my_data))

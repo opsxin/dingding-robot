@@ -62,7 +62,7 @@ class MarkdownMsg(object):
         if isinstance(at_values, bool):
             self._at_all = at_values
         else:
-            sys.exit("set_at_all 的值只能 True 或 False")
+            print("set_at_all 的值只能 True 或 False")
 
     def conversion_json(self):
         """

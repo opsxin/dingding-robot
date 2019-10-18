@@ -1,27 +1,25 @@
 """ActionCard 类型
 """
+import sys
 import json
 
 
 class ActionCardMsg(object):
     def __init__(
-            self, title, content, single_title, single_url,
-            btn_orientation=1, hide_avatar=0):
+            self, title, content, btn_orientation=0, hide_avatar=0):
         """
         初始化
 
         :param title: 标题 
         :param content: 消息内容（Markdown 格式）
-        :param single_title: 按钮名称
-        :param single_url: 按钮跳转 URL
-        :param btn_orientation: 0-1-按钮横向排列
+        :param btns: 消息按钮
+        :param btn_orientation: 0-按钮竖直排列，1-按钮横向排列
         :param hide_avatar: 0-正常发消息者头像，1-隐藏发消息者头像
         """
         self._msgtype = "actionCard"
         self.title = title
         self.content = content
-        self.single_title = single_title
-        self.single_url = single_url
+        self.btns = []
         self.btn_orientation = btn_orientation
         self.hide_avatar = hide_avatar
 
@@ -46,32 +44,35 @@ class ActionCardMsg(object):
         """
         self.content = ""
 
-    def mod_single_title(self, single_title):
+    def add_button(self, title, action_url):
         """
-        修改按钮标题
+        添加按钮
         """
-        if not single_title.strip():
-            self.single_title = single_title
+        if title.strip() or action_url.strip():
+            new_btn = {'title': title, 'actionURL': action_url}
+            self.btns.append(new_btn)
         else:
-            print("single_title 不能为空")
+            print("按钮标题和跳转 URL 不能为空")
 
-    def mod_single_url(self, single_url):
+    def del_button(self, index):
         """
-        修改跳转 URL
+        删除按钮
         """
-        if not single_url.strip():
-            self.single_url = single_url
-        else:
-            print("single_url 不能为空")
+        try:
+            self.btns.pop(index)
+        except IndexError:
+            print("删除范围为 0 -", len(self.btns)-1)
+        except TypeError:
+            print("参数只能为数字")
 
-    def set_btn_orientation(self, btn_orientation=1):
+    def set_btn_orientation(self, btn_orientation=0):
         """
         按钮显示方式
         """
         if btn_orientation == 0 or btn_orientation == 1:
             self.btn_orientation = btn_orientation
         else:
-            sys.exit("btn_orientation 的值只能 0 或 1")
+            print("btn_orientation 的值只能 0 或 1")
 
     def set_hide_avatar(self, hide_avatar=0):
         """
@@ -80,20 +81,30 @@ class ActionCardMsg(object):
         if hide_avatar == 0 or hide_avatar == 1:
             self.hide_avatar = hide_avatar
         else:
-            sys.exit("hide_avatar 的值只能 0 或 1")
+            print("hide_avatar 的值只能 0 或 1")
 
     def conversion_json(self):
         """
         转换内容为 JSON 格式
         """
+        data = {}
         if len(self.content) == 0:
             sys.exit("内容不能为空")
         else:
-            data = {'msgtype': self._msgtype, 'actionCard': {
-                'text': self.content, 'title': self.title, 'hideAvatar': self.hide_avatar,
-                'btnOrientation': self.btn_orientation, 'singleTitle': self.single_title,
-                'singleURL': self.single_url}
-            }
+            if len(self.btns) == 1:
+                data = {'msgtype': self._msgtype, 'actionCard': {
+                    'text': self.content, 'title': self.title, 'hideAvatar': self.hide_avatar,
+                    'btnOrientation': self.btn_orientation, 'singleTitle': self.btns[0]['title'],
+                    'singleURL': self.btns[0]['actionURL']}
+                }
+            elif len(self.btns) > 1:
+                data = {'msgtype': self._msgtype, 'actionCard': {
+                    'text': self.content, 'title': self.title, 'hideAvatar': self.hide_avatar,
+                    'btnOrientation': self.btn_orientation, 'btns': self.btns,
+                    }
+                }
+            else:
+                sys.exit("按钮不能为空")
             return json.dumps(data)
 
 
@@ -101,10 +112,8 @@ class ActionCardMsg(object):
 if __name__ == '__main__':
     ac = ActionCardMsg(
         "乔布斯 20 年前想打造一间苹果咖啡厅，而它正是 Apple Store 的前身",
-        "![screenshot](@lADOpwk3K80C0M0FoA)",
-        "阅读全文","https://www.dingtalk.com/")
+        "![screenshot](@lADOpwk3K80C0M0FoA)")
     ac.add_content("### 乔布斯 20 年前想打造的苹果咖啡厅")
-    # ac.del_content()
-    ac.set_btn_orientation(0)
-    # ac.set_hide_avatar(1)
+    ac.add_button("1","3")
+    # ac.del_button("v")
     print(ac.conversion_json())
