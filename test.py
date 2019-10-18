@@ -1,4 +1,4 @@
-
+import configparser
 # from dd_msg.text import TextMsg
 # from dd_msg.link import LinkMsg
 # from dd_msg.markdown import MarkdownMsg
@@ -6,12 +6,11 @@
 # from dd_msg.feedcard import FeedCardMsg
 from send_msg import requests_url
 
-# base_URL="https://wis.qq.com/weather/common?weather_type=observe|forecast_24h|air&source=pc"
-# province="浙江省"
-# city="杭州市"
-# URL = base_URL + "&province=" + province + "&city=" + city
-
-dingding = "https://oapi.dingtalk.com/robot/send?access_token=48069c1f554a0ce416e85c3bbb381260b8c41352e1fb1af111b5a8d134cf0d00"
+# 从配置文件获取钉钉 Webhook URL
+config_path = "config.ini"
+cf = configparser.ConfigParser()
+cf.read(config_path)
+dingding = cf.get("DEFAULT", "dingding")
 
 # # text 测试
 # if __name__ == "__main__":
