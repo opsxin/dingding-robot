@@ -19,11 +19,20 @@ class LinkMsg(object):
         self.msg_url = msg_url
         self.pic_url = pic_url
 
+    def mod_title(self, title):
+        """
+        修改标题
+        """
+        if not title.strip():
+            self.title = title
+        else:
+            print("title 不能为空")
+
     def add_content(self, content):
         """
         添加消息内容
         """
-        self.content = self.content + ' ' + content
+        self.content += content
 
     def del_content(self):
         """
@@ -33,21 +42,18 @@ class LinkMsg(object):
 
     def mod_msg_url(self, url):
         """
-        设置跳转 URL
+        修改跳转 URL
         """
-        self.msg_url = url
+        if not url.strip():
+            self.msg_url = url
+        else:
+            print("msg_url 不能为空")
 
     def set_pic_url(self, url):
         """
         设置图片 URL
         """
         self.pic_url = url
-
-    def del_pic_url(self):
-        """
-        清除图片 URL
-        """
-        self.pic_url = ""
 
     def conversion_json(self):
         """

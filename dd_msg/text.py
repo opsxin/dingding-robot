@@ -22,7 +22,7 @@ class TextMsg(object):
         """
         添加消息内容
         """
-        self.content = self.content + ' ' + content
+        self.content += content
 
     def del_content(self):
         """
@@ -62,7 +62,8 @@ class TextMsg(object):
             sys.exit("内容不能为空")
         else:
             data = {'msgtype': self._msgtype, 'text': {'content': self.content},
-                    'at': {'atMobiles': self.at_mobile}, 'isAtAll': self._at_all}
+                    'at': {'atMobiles': self.at_mobile}, 'isAtAll': self._at_all
+                    }
             return json.dumps(data)
 
 
