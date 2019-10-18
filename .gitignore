@@ -105,3 +105,5 @@ venv.bak/
 
 # VS Code
 .vscode
+# config file
+config.ini

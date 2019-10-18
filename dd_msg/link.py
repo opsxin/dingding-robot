@@ -1,17 +1,17 @@
 """Link 类型
 """
+import sys
 import json
 
 
 class LinkMsg(object):
     def __init__(self, title, content, msg_url, pic_url=""):
-        """
-        初始化
+        """初始化
 
         :param title: 标题 
         :param content: 消息内容
         :param msg_url: 点击消息跳转的 URL
-        :param pic_url: 图片显示的 URL
+        :param pic_url: 图片 URL
         """
         self._msgtype = "link"
         self.title = title
@@ -20,8 +20,7 @@ class LinkMsg(object):
         self.pic_url = pic_url
 
     def mod_title(self, title):
-        """
-        修改标题
+        """修改标题
         """
         if not title.strip():
             self.title = title
@@ -29,35 +28,36 @@ class LinkMsg(object):
             print("title 不能为空")
 
     def add_content(self, content):
-        """
-        添加消息内容
+        """添加消息内容
         """
         self.content += content
 
     def del_content(self):
-        """
-        清空消息内容
+        """清空消息内容
         """
         self.content = ""
 
-    def mod_msg_url(self, url):
+    def mod_content(self, content):
+        """修改消息内容
         """
-        修改跳转 URL
+        self.del_content()
+        self.add_content(content)
+
+    def mod_msg_url(self, url):
+        """修改跳转 URL
         """
         if not url.strip():
             self.msg_url = url
         else:
             print("msg_url 不能为空")
 
-    def set_pic_url(self, url):
-        """
-        设置图片 URL
+    def mod_pic_url(self, url):
+        """设置图片 URL
         """
         self.pic_url = url
 
     def conversion_json(self):
-        """
-        转换内容为 JSON 格式
+        """转换内容为 JSON 格式
         """
         if len(self.content) == 0:
             sys.exit("内容不能为空")
@@ -79,6 +79,6 @@ if __name__ == '__main__':
     link.add_content("追加内容。")
     # link.del_content()
     link.add_content("设置新内容。")
-    link.set_pic_url("https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png")
+    link.mod_pic_url("https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png")
     print(link.conversion_json())
     
