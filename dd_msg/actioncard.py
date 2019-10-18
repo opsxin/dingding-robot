@@ -7,8 +7,7 @@ import json
 class ActionCardMsg(object):
     def __init__(
             self, title, content, btn_orientation=0, hide_avatar=0):
-        """
-        初始化
+        """初始化
 
         :param title: 标题 
         :param content: 消息内容（Markdown 格式）
@@ -24,8 +23,7 @@ class ActionCardMsg(object):
         self.hide_avatar = hide_avatar
 
     def mod_title(self, title):
-        """
-        修改标题
+        """修改标题
         """
         if not title.strip():
             self.title = title
@@ -33,20 +31,23 @@ class ActionCardMsg(object):
             print("title 不能为空")
 
     def add_content(self, content):
-        """
-        添加消息内容
+        """添加消息内容
         """
         self.content += content
 
     def del_content(self):
-        """
-        清空消息内容
+        """清空消息内容
         """
         self.content = ""
 
-    def add_button(self, title, action_url):
+    def mod_content(self, content):
+        """修改消息内容
         """
-        添加按钮
+        self.del_content()
+        self.add_content(content)
+
+    def add_button(self, title, action_url):
+        """添加按钮
         """
         if title.strip() or action_url.strip():
             new_btn = {'title': title, 'actionURL': action_url}
@@ -55,19 +56,17 @@ class ActionCardMsg(object):
             print("按钮标题和跳转 URL 不能为空")
 
     def del_button(self, index):
-        """
-        删除按钮
+        """删除按钮
         """
         try:
             self.btns.pop(index)
         except IndexError:
             print("删除范围为 0 -", len(self.btns)-1)
         except TypeError:
-            print("参数只能为数字")
+            print("del_button 参数只能为数字")
 
     def set_btn_orientation(self, btn_orientation=0):
-        """
-        按钮显示方式
+        """按钮显示方式
         """
         if btn_orientation == 0 or btn_orientation == 1:
             self.btn_orientation = btn_orientation
@@ -75,8 +74,7 @@ class ActionCardMsg(object):
             print("btn_orientation 的值只能 0 或 1")
 
     def set_hide_avatar(self, hide_avatar=0):
-        """
-        发送者头像显示方式
+        """发送者头像显示方式
         """
         if hide_avatar == 0 or hide_avatar == 1:
             self.hide_avatar = hide_avatar
@@ -84,8 +82,7 @@ class ActionCardMsg(object):
             print("hide_avatar 的值只能 0 或 1")
 
     def conversion_json(self):
-        """
-        转换内容为 JSON 格式
+        """转换内容为 JSON 格式
         """
         data = {}
         if len(self.content) == 0:

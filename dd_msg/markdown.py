@@ -6,8 +6,7 @@ import json
 
 class MarkdownMsg(object):
     def __init__(self, title, content, at_mobile=[], at_all=False):
-        """
-        初始化
+        """初始化
 
         :param title: 标题 
         :param content: 消息内容
@@ -21,8 +20,7 @@ class MarkdownMsg(object):
         self._at_all = at_all
 
     def mod_title(self, title):
-        """
-        修改标题
+        """修改标题
         """
         if not title.strip():
             self.title = title
@@ -30,35 +28,36 @@ class MarkdownMsg(object):
             print("title 不能为空")
 
     def add_content(self, content):
-        """
-        添加消息内容
+        """添加消息内容
         """
         self.content += content
 
     def del_content(self):
-        """
-        清空消息内容
+        """清空消息内容
         """
         self.content = ""
 
-    def add_at_num(self, num):
+    def mod_content(self, content):
+        """修改消息内容
         """
-        添加 @ 的手机号码
+        self.del_content()
+        self.add_content(content)
+
+    def add_at_num(self, num):
+        """添加手机号码
         """
         self.at_mobile.append(num)
 
     def del_at_num(self, num):
-        """
-        删除手机号码
+        """删除手机号码
         """
         try:
             self.at_mobile.remove(num)
         except ValueError:
             print("删除的手机号码不存在")
 
-    def set_at_all(self, at_values=False):
-        """
-        设置是否 @ 所有人
+    def set_at_all(self, at_values):
+        """设置是否 @ 所有人
         """
         if isinstance(at_values, bool):
             self._at_all = at_values
@@ -66,8 +65,7 @@ class MarkdownMsg(object):
             print("set_at_all 的值只能 True 或 False")
 
     def conversion_json(self):
-        """
-        转换内容为 JSON 格式
+        """转换内容为 JSON 格式
         """
         if len(self.content) == 0:
             sys.exit("内容不能为空")
