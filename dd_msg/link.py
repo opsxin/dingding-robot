@@ -1,5 +1,6 @@
 """Link 类型
 """
+import sys
 import json
 
 
