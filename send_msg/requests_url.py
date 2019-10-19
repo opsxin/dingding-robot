@@ -9,12 +9,16 @@ my_header = {
 }
 
 
-def request_url(URL, my_data):
+def request_url(URL, my_data={}, requests_type="POST"):
+    """发送 URL 请求
+    只支持 Get、Post 方式
     """
-    发送 URL POST 请求
-    """
-    r = requests.post(URL, data=my_data, headers=my_header)
+    if requests_type.lower() == "post":
+        r = requests.post(URL, data=my_data, headers=my_header)
+    else:
+        r = requests.get(URL, headers=my_header)
     if r.status_code == requests.codes.ok:
         return r
     else:   
-        print("发送失败，请检查 JSON\n", my_data)
+        print("发送失败，请检查")
+
