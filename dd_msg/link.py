@@ -81,4 +81,4 @@ if __name__ == '__main__':
     link.add_content("设置新内容。")
     link.mod_pic_url("https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png")
     print(link.conversion_json())
-    
+
