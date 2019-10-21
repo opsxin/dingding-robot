@@ -9,6 +9,7 @@
 ### 1. 文本格式（Text）
 ```python
 from dd_msg.text import TextMsg
+from send_msg import requests_url
 
 
 if __name__ == '__main__':
@@ -21,6 +22,8 @@ if __name__ == '__main__':
 ### 2. Markdown 格式
 ```python
 from dd_msg.markdown import MarkdownMsg
+from send_msg import requests_url
+
 
 if __name__ == '__main__':
     md = MarkdownMsg("杭州天气", "#### 杭州天气\n")
