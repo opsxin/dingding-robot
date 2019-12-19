@@ -1,3 +1,4 @@
+import requests
 import configparser
 # from dingding.text import TextMsg
 # from dingding.link import LinkMsg
@@ -5,7 +6,6 @@ import configparser
 # from dingding.actioncard import ActionCardMsg
 from dingding.feedcard import FeedCardMsg
 
-from send_msg import requests_url
 
 # 从配置文件获取钉钉 Webhook URL
 cf = configparser.ConfigParser()
@@ -19,7 +19,7 @@ dingding = cf.get("DEFAULT", "dingding")
 #     phone_num = [12345678910, "23456789101"]
 #     txt = TextMsg(content, phone_num)
 #     my_data = txt.conversion_json()
-#     print(requests_url.request_url(dingding, my_data))
+#     print(requests.post(dingding, data=my_data))
 
 # # Link 测试
 # if __name__ == "__main__":
@@ -30,7 +30,7 @@ dingding = cf.get("DEFAULT", "dingding")
 #     link.mod_pic_url(
 #         "https://img.alicdn.com/tfs/TB1yL3taUgQMeJjy0FeXXXOEVXa-492-380.png")
 #     my_data = link.conversion_json()
-# print(requests_url.request_url(dingding, my_data))
+#     print(requests.post(dingding, data=my_data))
 
 # # Markdown 测试
 # if __name__ == "__main__":
@@ -40,7 +40,7 @@ dingding = cf.get("DEFAULT", "dingding")
 #     phone_num = [12345, "12344"]
 #     md = MarkdownMsg(title, content, phone_num)
 #     my_data = md.conversion_json()
-#     print(requests_url.request_url(dingding, my_data))
+#     print(requests.post(dingding, data=my_data))
 
 # # ActionCard 测试
 # if __name__ == "__main__":
@@ -51,13 +51,12 @@ dingding = cf.get("DEFAULT", "dingding")
 #     ac.button = btns
 #     my_data = ac.conversion_json()
 #     print(my_data)
-#     print(requests_url.request_url(dingding, my_data))
+#     print(requests.post(dingding, data=my_data))
 
 # FeedCard 测试
 if __name__ == '__main__':
     links = [[1, 2, 3], [4, "a"]]
     fc = FeedCardMsg(links)
     my_data = fc.conversion_json()
-    print(my_data)
-    print(requests_url.request_url(dingding, my_data))
+    print(requests.post(dingding, data=my_data))
 
