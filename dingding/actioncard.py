@@ -1,6 +1,5 @@
 """ActionCard 类型
 """
-import sys
 import json
 
 from .base import Base
@@ -13,14 +12,21 @@ class ActionCardMsg(Base):
         """初始化
 
         :param title: 标题 
-        :param content: 消息内容（Markdown 格式）
+        :param content: 消息内容(Markdown 格式)
         :param btns: 消息按钮
         :param btn_orientation: 0-按钮竖直排列，1-按钮横向排列
         :param hide_avatar: 0-正常发消息者头像，1-隐藏发消息者头像
         """
         self._title = title
         self._content = content
-        self._btns = btns
+        self._btns = []
+        for btn in btns:
+            for title, action_url in btn.items():
+                if title.strip() or action_url.strip():
+                    new_btn = {'title': title, 'actionURL': action_url}
+                    self._btns.append(new_btn)
+                else:
+                    print("按钮标题和跳转 URL 不能为空")
         self._btn_orientation = btn_orientation
         self._hide_avatar = hide_avatar
 
@@ -75,7 +81,8 @@ class ActionCardMsg(Base):
         """
         data = {}
         if len(self._content) == 0:
-            sys.exit("内容不能为空")
+            print("内容不能为空")
+            return
         else:
             if len(self._btns) == 1:
                 data = {'msgtype': self.__msgtype, 'actionCard': {
@@ -87,7 +94,8 @@ class ActionCardMsg(Base):
                     'text': self._content, 'title': self._title, 'hideAvatar': self._hide_avatar,
                     'btnOrientation': self._btn_orientation, 'btns': self._btns, }}
             else:
-                sys.exit("按钮不能为空")
+                print("按钮不能为空")
+                return
             return json.dumps(data)
 
 

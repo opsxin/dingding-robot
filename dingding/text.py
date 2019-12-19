@@ -1,6 +1,5 @@
 """Text 类型
 """
-import sys
 import json
 
 from .base import Base
@@ -62,7 +61,8 @@ class TextMsg(Base):
         """转换内容为 JSON 格式
         """
         if len(self._content) == 0:
-            sys.exit("内容不能为空")
+            print("内容不能为空")
+            return
         else:
             data = {'msgtype': self.__msgtype, 'text': {'content': str(self._content)},
                     'at': {'atMobiles': self._at_mobile, 'isAtAll': self._at_all}}

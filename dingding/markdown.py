@@ -1,6 +1,5 @@
 """Markdown 类型
 """
-import sys
 import json
 
 from .text import TextMsg
@@ -37,7 +36,8 @@ class MarkdownMsg(TextMsg):
         """转换内容为 JSON 格式
         """
         if len(self.content) == 0:
-            sys.exit("内容不能为空")
+            print("内容不能为空")
+            return
         else:
             data = {'msgtype': self.__msgtype, 'markdown': {
                 'text': str(self._content), 'title': str(self._title)}, 'at': {

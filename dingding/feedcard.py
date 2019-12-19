@@ -1,6 +1,5 @@
 """FeedCard 类型
 """
-import sys
 import json
 
 
@@ -44,7 +43,8 @@ class FeedCardMsg(object):
         """转换内容为 JSON 格式
         """
         if len(self._links) < 1:
-            sys.exit("链接不能为空")
+            print("链接不能为空")
+            return
         else:
             data = {'msgtype': self.__msgtype, 'feedCard': {
                 'links': self._links}
