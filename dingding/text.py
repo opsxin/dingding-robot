@@ -3,61 +3,55 @@
 import sys
 import json
 
+from .base import Base
 
-class TextMsg(object):
+
+class TextMsg(Base):
+    __msgtype = "text"
+
     def __init__(self, content, at_mobile=[], at_all=False):
         """初始化
 
         :param content: 消息内容
         :param at_mobile: @ 用户
-        :param _at_all: @ 所有人
+        :param at_all: @ 所有人
         """
-        self._msgtype = "text"
-        self.content = content
-        self.at_mobile = at_mobile
-        self._at_all = at_all
+        self._content = content
+        self._at_mobile = []
+        for num in at_mobile:
+            if isinstance(num, str):
+                self._at_mobile.append(num)
+            else:
+                self._at_mobile.append(str(num))
+        if isinstance(at_all, bool):
+            self._at_all = at_all
+        else:
+            print("是否 @ 所有人的值只能 True 或 False")
+            self._at_all = False
 
-    def add_content(self, content):
-        """添加消息内容
+    @property
+    def phone_num(self):
+        return self._at_mobile
 
-        Args: 
-            content: 消息内容（String）
-        """
-        self.content += content
-
-    def del_content(self):
-        """清空消息内容
-        """
-        self.content = ""
-    
-    def mod_content(self, content):
-        """修改消息内容
-        """
-        self.del_content()
-        self.add_content(content)
-
-    def add_at_num(self, num):
-        """添加手机号码
+    @phone_num.setter
+    def phone_num(self, nums):
+        """修改手机号码
 
         Args: 
-            num: 手机号码（String）
+            num: 手机号码(String)
         """
-        self.at_mobile.append(num)
-
-    def del_at_num(self, num):
-        """删除手机号码
-        """
-        try:
-            self.at_mobile.remove(num)
-        except ValueError:
-            print("删除的手机号码不存在")
+        self._at_mobile.clear()
+        for num in nums:
+            if isinstance(num, str):
+                self._at_mobile.append(num)
+            else:
+                self._at_mobile.append(str(num))
 
     def set_at_all(self, at_values):
-        """
-        设置是否 @ 所有人
+        """设置是否 @ 所有人
 
         Args: 
-            at_values（bool）
+            at_values(bool)
         """
         if isinstance(at_values, bool):
             self._at_all = at_values
@@ -67,22 +61,19 @@ class TextMsg(object):
     def conversion_json(self):
         """转换内容为 JSON 格式
         """
-        if len(self.content) == 0:
+        if len(self._content) == 0:
             sys.exit("内容不能为空")
         else:
-            data = {'msgtype': self._msgtype, 'text': {'content': self.content},
-                    'at': {'atMobiles': self.at_mobile}, 'isAtAll': self._at_all
-                    }
+            data = {'msgtype': self.__msgtype, 'text': {'content': str(self._content)},
+                    'at': {'atMobiles': self._at_mobile, 'isAtAll': self._at_all}}
             return json.dumps(data)
 
 
 # 测试
 if __name__ == '__main__':
-    txt = TextMsg("测试发送 TXT 内容。")
-    txt.add_content("追加内容。")
-    # txt.del_content()
-    txt.add_content("设置新内容。")
-    txt.add_at_num("12345678910")
-    # txt.del_at_num("12345678910")
-    txt.set_at_all(True)
+    content = "我就是我, "
+    content += "是不一样的烟火。"
+    phone_num = [12345678910, "23456789101"]
+    txt = TextMsg(content, phone_num)
     print(txt.conversion_json())
+
