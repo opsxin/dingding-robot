@@ -20,8 +20,10 @@ class TextMsg(Base):
         for num in at_mobile:
             if isinstance(num, str):
                 self._at_mobile.append(num)
-            else:
+            elif isinstance(num, int):
                 self._at_mobile.append(str(num))
+            else:
+                raise TypeError("类型为 str")
         if isinstance(at_all, bool):
             self._at_all = at_all
         else:
@@ -42,8 +44,10 @@ class TextMsg(Base):
         for num in nums:
             if isinstance(num, str):
                 self._at_mobile.append(num)
-            else:
+            elif isinstance(num, int):
                 self._at_mobile.append(str(num))
+            else:
+                raise TypeError("类型为 str")
 
     def set_at_all(self, at_values):
         """设置是否 @ 所有人

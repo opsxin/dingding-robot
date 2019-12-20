@@ -9,7 +9,8 @@ class FeedCardMsg(object):
     def __init__(self, links=[]):
         """初始化
 
-        :param links: 消息链接
+        :param links: 消息链接, [["title", "msg_url", "pic_url"],
+            ["title", "msg_url", "pic_url"]]
         """
         self._links = []
         for link in links:

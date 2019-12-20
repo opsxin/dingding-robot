@@ -21,12 +21,15 @@ class ActionCardMsg(Base):
         self._content = content
         self._btns = []
         for btn in btns:
-            for title, action_url in btn.items():
-                if title.strip() and action_url.strip():
-                    new_btn = {'title': title, 'actionURL': action_url}
-                    self._btns.append(new_btn)
-                else:
-                    raise ValueError("标题或 URL 不能为空")
+            if isinstance(btn, dict):
+                for title, action_url in btn.items():
+                    if title.strip() and action_url.strip():
+                        new_btn = {'title': title, 'actionURL': action_url}
+                        self._btns.append(new_btn)
+                    else:
+                        raise ValueError("标题或 URL 不能为空")
+            else:
+                raise TypeError("按钮内部为 dict")
         self._btn_orientation = btn_orientation
         self._hide_avatar = hide_avatar
 
@@ -53,12 +56,15 @@ class ActionCardMsg(Base):
         """
         self._btns.clear()
         for btn in btns:
-            for title, action_url in btn.items():
-                if title.strip() and action_url.strip():
-                    new_btn = {'title': title, 'actionURL': action_url}
-                    self._btns.append(new_btn)
-                else:
-                    raise ValueError("标题或 URL 不能为空")
+            if isinstance(btn, dict):
+                for title, action_url in btn.items():
+                    if title.strip() and action_url.strip():
+                        new_btn = {'title': title, 'actionURL': action_url}
+                        self._btns.append(new_btn)
+                    else:
+                        raise ValueError("标题或 URL 不能为空")
+            else:
+                raise TypeError("按钮内部为 dict")
 
     def set_btn_orientation(self, btn_orientation=False):
         """按钮显示方式

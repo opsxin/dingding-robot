@@ -21,7 +21,7 @@ class MarkdownMsg(TextMsg):
 
     @property
     def title(self):
-        return self.title
+        return self._title
 
     @title.setter
     def title(self, title):
