@@ -27,7 +27,7 @@ class MarkdownMsg(TextMsg):
     def title(self, title):
         """修改标题
         """
-        if not title.strip():
+        if title.strip():
             self._title = title
         else:
             print("标题不能为空")
@@ -35,8 +35,8 @@ class MarkdownMsg(TextMsg):
     def conversion_json(self):
         """转换内容为 JSON 格式
         """
-        if len(self.content) == 0:
-            print("内容不能为空")
+        if len(self._content) == 0 or len(self._title) == 0:
+            print("标题或内容不能为空")
             return
         else:
             data = {'msgtype': self.__msgtype, 'markdown': {
@@ -46,11 +46,10 @@ class MarkdownMsg(TextMsg):
 
 
 # 测试
-if __name__ == '__main__':
+if __name__ == "__main__":
     title = "杭州天气"
-    content = "杭州天气 #### 杭州天气 @156xxxx8827\n"
-    content += "> 9度，西北风1级，空气良89，相对温度73%\n\n"
-    phone_num = [12345, "12344"]
-    md = MarkdownMsg(title, content, phone_num)
+    content = "杭州天气 #### 杭州天气 \n"
+    md = MarkdownMsg(title, content, at_all=True)
+    md.content = "> 9度，西北风1级，空气良89，相对温度73%\n\n"
     print(md.conversion_json())
 

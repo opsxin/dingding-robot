@@ -13,7 +13,7 @@ class ActionCardMsg(Base):
 
         :param title: 标题 
         :param content: 消息内容(Markdown 格式)
-        :param btns: 消息按钮
+        :param btns: 消息按钮, [{"title": "URL"}, {"title": "URL"}]
         :param btn_orientation: 0-按钮竖直排列，1-按钮横向排列
         :param hide_avatar: 0-正常发消息者头像，1-隐藏发消息者头像
         """
@@ -22,7 +22,7 @@ class ActionCardMsg(Base):
         self._btns = []
         for btn in btns:
             for title, action_url in btn.items():
-                if title.strip() or action_url.strip():
+                if title.strip() and action_url.strip():
                     new_btn = {'title': title, 'actionURL': action_url}
                     self._btns.append(new_btn)
                 else:
@@ -38,7 +38,7 @@ class ActionCardMsg(Base):
     def title(self, title):
         """修改标题
         """
-        if not title.strip():
+        if title.strip():
             self._title = title
         else:
             print("标题不能为空")
@@ -54,7 +54,7 @@ class ActionCardMsg(Base):
         self._btns.clear()
         for btn in btns:
             for title, action_url in btn.items():
-                if title.strip() or action_url.strip():
+                if title.strip() and action_url.strip():
                     new_btn = {'title': title, 'actionURL': action_url}
                     self._btns.append(new_btn)
                 else:
@@ -63,7 +63,7 @@ class ActionCardMsg(Base):
     def set_btn_orientation(self, btn_orientation=0):
         """按钮显示方式
         """
-        if btn_orientation == 0 or btn_orientation == 1:
+        if btn_orientation in (0, 1):
             self._btn_orientation = btn_orientation
         else:
             print("按钮显示的值只能 0 或 1")
@@ -71,7 +71,7 @@ class ActionCardMsg(Base):
     def set_hide_avatar(self, hide_avatar=0):
         """发送者头像显示方式
         """
-        if hide_avatar == 0 or hide_avatar == 1:
+        if hide_avatar in (0, 1):
             self._hide_avatar = hide_avatar
         else:
             print("隐藏头像的值只能 0 或 1")
@@ -80,8 +80,8 @@ class ActionCardMsg(Base):
         """转换内容为 JSON 格式
         """
         data = {}
-        if len(self._content) == 0:
-            print("内容不能为空")
+        if len(self._content) == 0 or len(self._title) == 0:
+            print("标题或内容不能为空")
             return
         else:
             if len(self._btns) == 1:
@@ -100,11 +100,12 @@ class ActionCardMsg(Base):
 
 
 # 测试
-if __name__ == '__main__':
-    ac = ActionCardMsg(
-        "乔布斯 20 年前想打造一间苹果咖啡厅，而它正是 Apple Store 的前身",
-        "![screenshot](@lADOpwk3K80C0M0FoA)")
-    btns = [{"1": "a"}, {"2": "b"}]
-    ac.button = btns
+if __name__ == "__main__":
+    title = "乔布斯 20 年前想打造一间苹果咖啡厅，而它正是 Apple Store 的前身"
+    content = "![screenshot](@lADOpwk3K80C0M0FoA) 乔布斯 20 年前想打造的苹果咖啡厅"
+    btns = [{"内容不错": "https://www.dingtalk.com/"},
+            {"不感兴趣": "https://www.dingtalk.com/"}]
+    ac = ActionCardMsg(title, content, btns)
+    ac.content = "![screenshot](http://1t.click/b6GF)修改内容"
     print(ac.conversion_json())
 

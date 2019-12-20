@@ -29,7 +29,7 @@ class LinkMsg(Base):
     def title(self, title):
         """修改标题
         """
-        if not title.strip():
+        if title.strip():
             self._title = title
         else:
             print("标题不能为空")
@@ -37,7 +37,7 @@ class LinkMsg(Base):
     def mod_msg_url(self, url):
         """修改跳转 URL
         """
-        if not url.strip():
+        if url.strip():
             self._msg_url = url
         else:
             print("消息 URL 不能为空")
@@ -50,7 +50,7 @@ class LinkMsg(Base):
     def conversion_json(self):
         """转换内容为 JSON 格式
         """
-        if len(self._content) == 0:
+        if len(self._content) == 0 or len(self._title) == 0 or len(self._msg_url) == 0:
             print("内容不能为空")
             return
         else:
