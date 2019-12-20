@@ -32,7 +32,7 @@ class LinkMsg(Base):
         if title.strip():
             self._title = title
         else:
-            print("标题不能为空")
+            raise ValueError("标题不能为空")
 
     def mod_msg_url(self, url):
         """修改跳转 URL
@@ -40,7 +40,7 @@ class LinkMsg(Base):
         if url.strip():
             self._msg_url = url
         else:
-            print("消息 URL 不能为空")
+            raise ValueError("消息 URL 不能为空")
 
     def mod_pic_url(self, url):
         """修改图片 URL
@@ -50,9 +50,12 @@ class LinkMsg(Base):
     def conversion_json(self):
         """转换内容为 JSON 格式
         """
-        if len(self._content) == 0 or len(self._title) == 0 or len(self._msg_url) == 0:
-            print("内容不能为空")
-            return
+        if len(self._content) == 0:
+            raise ValueError("内容不能为空")
+        elif len(self._title) == 0:
+            raise ValueError("标题不能为空")
+        elif len(self._msg_url) == 0:
+            raise ValueError("消息 URL 不能为空")
         else:
             data = {
                 'msgtype': self.__msgtype, 'link': {

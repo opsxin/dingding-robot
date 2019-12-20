@@ -25,8 +25,7 @@ class TextMsg(Base):
         if isinstance(at_all, bool):
             self._at_all = at_all
         else:
-            print("是否 @ 所有人的值只能 True 或 False")
-            self._at_all = False
+            raise TypeError("类型为 bool")
 
     @property
     def phone_num(self):
@@ -55,14 +54,13 @@ class TextMsg(Base):
         if isinstance(at_values, bool):
             self._at_all = at_values
         else:
-            print("set_at_all 的值只能 True 或 False")
+            raise TypeError("类型为 bool")
 
     def conversion_json(self):
         """转换内容为 JSON 格式
         """
         if len(self._content) == 0:
-            print("内容不能为空")
-            return
+            raise ValueError("内容不能为空")
         else:
             data = {'msgtype': self.__msgtype, 'text': {'content': str(self._content)},
                     'at': {'atMobiles': self._at_mobile, 'isAtAll': self._at_all}}

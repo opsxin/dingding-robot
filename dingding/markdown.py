@@ -30,14 +30,15 @@ class MarkdownMsg(TextMsg):
         if title.strip():
             self._title = title
         else:
-            print("标题不能为空")
+            raise ValueError("标题不能为空")
 
     def conversion_json(self):
         """转换内容为 JSON 格式
         """
-        if len(self._content) == 0 or len(self._title) == 0:
-            print("标题或内容不能为空")
-            return
+        if len(self._title) == 0:
+            raise ValueError("标题不能为空")
+        elif len(self._content) == 0:
+            raise ValueError("内容不能为空")
         else:
             data = {'msgtype': self.__msgtype, 'markdown': {
                 'text': str(self._content), 'title': str(self._title)}, 'at': {

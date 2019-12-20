@@ -19,7 +19,7 @@ class FeedCardMsg(object):
                 }
                 self._links.append(new_link)
             else:
-                print("标题和 URL 不能为空")
+                raise ValueError("标题或 URL 不能为空")
 
     @property
     def link(self):
@@ -37,14 +37,13 @@ class FeedCardMsg(object):
                 }
                 self._links.append(new_link)
             else:
-                print("标题和 URL 不能为空")
+                raise ValueError("标题或 URL 不能为空")
 
     def conversion_json(self):
         """转换内容为 JSON 格式
         """
         if len(self._links) < 1:
-            print("链接不能为空")
-            return
+            raise ValueError("消息 URL 不能为空")
         else:
             data = {'msgtype': self.__msgtype, 'feedCard': {
                 'links': self._links}

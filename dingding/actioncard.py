@@ -8,7 +8,7 @@ from .base import Base
 class ActionCardMsg(Base):
     __msgtype = "actionCard"
 
-    def __init__(self, title, content, btns=[], btn_orientation=0, hide_avatar=0):
+    def __init__(self, title, content, btns=[], btn_orientation=False, hide_avatar=False):
         """初始化
 
         :param title: 标题 
@@ -26,7 +26,7 @@ class ActionCardMsg(Base):
                     new_btn = {'title': title, 'actionURL': action_url}
                     self._btns.append(new_btn)
                 else:
-                    print("按钮标题和跳转 URL 不能为空")
+                    raise ValueError("标题或 URL 不能为空")
         self._btn_orientation = btn_orientation
         self._hide_avatar = hide_avatar
 
@@ -41,7 +41,7 @@ class ActionCardMsg(Base):
         if title.strip():
             self._title = title
         else:
-            print("标题不能为空")
+            raise ValueError("标题不能为空")
 
     @property
     def button(self):
@@ -58,44 +58,44 @@ class ActionCardMsg(Base):
                     new_btn = {'title': title, 'actionURL': action_url}
                     self._btns.append(new_btn)
                 else:
-                    print("按钮标题和跳转 URL 不能为空")
+                    raise ValueError("标题或 URL 不能为空")
 
-    def set_btn_orientation(self, btn_orientation=0):
+    def set_btn_orientation(self, btn_orientation=False):
         """按钮显示方式
         """
-        if btn_orientation in (0, 1):
+        if isinstance(btn_orientation, bool):
             self._btn_orientation = btn_orientation
         else:
-            print("按钮显示的值只能 0 或 1")
+            raise TypeError("类型为 bool")
 
-    def set_hide_avatar(self, hide_avatar=0):
+    def set_hide_avatar(self, hide_avatar=False):
         """发送者头像显示方式
         """
-        if hide_avatar in (0, 1):
+        if isinstance(hide_avatar, bool):
             self._hide_avatar = hide_avatar
         else:
-            print("隐藏头像的值只能 0 或 1")
+            raise TypeError("类型为 bool")
 
     def conversion_json(self):
         """转换内容为 JSON 格式
         """
         data = {}
-        if len(self._content) == 0 or len(self._title) == 0:
-            print("标题或内容不能为空")
-            return
+        if len(self._content) == 0:
+            raise ValueError("内容不能为空")
+        elif len(self._title) == 0:
+            raise ValueError("标题不能为空")
         else:
             if len(self._btns) == 1:
                 data = {'msgtype': self.__msgtype, 'actionCard': {
-                    'text': self._content, 'title': self._title, 'hideAvatar': self._hide_avatar,
-                    'btnOrientation': self._btn_orientation, 'singleTitle': self._btns[0]['title'],
+                    'text': self._content, 'title': self._title, 'hideAvatar': int(self._hide_avatar),
+                    'btnOrientation': int(self._btn_orientation), 'singleTitle': self._btns[0]['title'],
                     'singleURL': self._btns[0]['actionURL']}}
             elif len(self._btns) > 1:
                 data = {'msgtype': self.__msgtype, 'actionCard': {
-                    'text': self._content, 'title': self._title, 'hideAvatar': self._hide_avatar,
-                    'btnOrientation': self._btn_orientation, 'btns': self._btns, }}
+                    'text': self._content, 'title': self._title, 'hideAvatar': int(self._hide_avatar),
+                    'btnOrientation': int(self._btn_orientation), 'btns': self._btns, }}
             else:
-                print("按钮不能为空")
-                return
+                raise ValueError("按钮不能为空")
             return json.dumps(data)
 
 
